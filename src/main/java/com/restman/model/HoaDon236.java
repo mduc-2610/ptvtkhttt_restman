@@ -9,7 +9,6 @@ public class HoaDon236 {
     private int tongTien;
     private String ghiChu;
     private int donHangId;
-    private DonHang236 donHang;
     
     public HoaDon236() {}
 
@@ -52,14 +51,5 @@ public class HoaDon236 {
 	public void setDonHangId(int donHangId) {
 		this.donHangId = donHangId;
 	}
-
-	public DonHang236 getDonHang() {
-		return donHang;
-	}
-
-	public void setDonHang(DonHang236 donHang) {
-		this.donHang = donHang;
-	}
-    
     
 }

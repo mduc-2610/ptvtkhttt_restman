@@ -3,7 +3,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.restman.dao.*" %>
 <%@ page import="com.restman.model.*" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,59 +30,63 @@
 
         <div class="report-content">
             <%
-            	DecimalFormat formatter = new DecimalFormat("#,###");
-                String searchQuery = request.getParameter("query");
-                if (searchQuery == null) {
-                    searchQuery = "";
-                }
-                
-                try {
-                    MonAnDAO236 monAnDAO = new MonAnDAO236();
-                    List<MonAn236> monAnList = monAnDAO.getListMonAn(searchQuery);
-                    
-                    if (!monAnList.isEmpty()) {
-            %>
-                        <table class="report-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên món ăn</th>
-                                    <th>Giá</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <%
-                                int stt = 1;
-                                for (MonAn236 monAn : monAnList) {
-                            %>
-                                <tr>
-                                    <td><%= stt++ %></td>
-                                    <td><%= monAn.getTen() %></td>
-                                    <td><%= formatter.format(monAn.getGia()) %> VNĐ</td>
-                                    <td>
-                                        <a href="/RestMan/views/monan/GDChiTietMonAn236.jsp?id=<%= monAn.getId() %>" 
-                                           class="btn-detail">Xem chi tiết</a>
-                                    </td>
-                                </tr>
-                            <%
-                                }
-                            %>
-                            </tbody>
-                        </table>
-            <%
-                    } else {
-            %>
-                        <p>Không tìm thấy kết quả nào cho "<%= searchQuery %>".</p>
-            <%
-                    }
-                } catch (Exception e) {
-            %>
-                    <p>Đã xảy ra lỗi trong quá trình tìm kiếm. Vui lòng thử lại sau.</p>
-            <%
-                    e.printStackTrace();
-                }
-            %>
+			    DecimalFormat formatter = new DecimalFormat("#,###");
+			    String searchQuery = request.getParameter("query");
+			
+			    if (searchQuery == null || searchQuery.trim().isEmpty()) {
+			%>
+			        <p>Vui lòng nhập tên món ăn để tìm kiếm.</p>
+			<%
+			    } else {
+			        try {
+			            MonAnDAO236 monAnDAO = new MonAnDAO236();
+			            List<MonAn236> monAnList = monAnDAO.getListMonAnByTen(searchQuery);
+			            
+			            if (!monAnList.isEmpty()) {
+			%>
+			                <table class="report-table">
+			                    <thead>
+			                        <tr>
+			                            <th>ID</th>
+			                            <th>Tên món ăn</th>
+			                            <th>Giá</th>
+			                            <th>Thao tác</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody>
+			                    <%
+			                        int stt = 1;
+			                        for (MonAn236 monAn : monAnList) {
+			                    %>
+			                        <tr>
+			                            <td><%= stt++ %></td>
+			                            <td><%= monAn.getTen() %></td>
+			                            <td><%= formatter.format(monAn.getGia()) %> VNĐ</td>
+			                            <td>
+			                                <a href="/RestMan/views/monan/GDChiTietMonAn236.jsp?id=<%= monAn.getId() %>" 
+			                                   class="btn-detail">Xem chi tiết</a>
+			                            </td>
+			                        </tr>
+			                    <%
+			                        }
+			                    %>
+			                    </tbody>
+			                </table>
+			<%
+			            } else {
+			%>
+			                <p>Không tìm thấy kết quả nào cho "<%= searchQuery %>".</p>
+			<%
+			            }
+			        } catch (Exception e) {
+			%>
+			            <p>Đã xảy ra lỗi trong quá trình tìm kiếm. Vui lòng thử lại sau.</p>
+			<%
+			            e.printStackTrace();
+			        }
+			    }
+			%>
+
         </div>
     </div>
 

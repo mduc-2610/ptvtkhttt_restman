@@ -33,9 +33,9 @@
 
     <div class="container">
         <div class="food-detail">
-            <div class="food-image">
+            <%-- <div class="food-image">
                 <img src="/RestMan/resources/images/food/<%= monAn != null ? monAn.getId() + ".jpg" : "placeholder.jpg" %>" alt="<%= monAn != null ? monAn.getTen() : "Food Image" %>">
-            </div>
+            </div> --%>
             <div class="food-info">
                 <h2><%= monAn != null ? monAn.getTen() : "Tên món ăn không xác định" %></h2>
                 <p class="price"><%= monAn != null ? formatter.format(monAn.getGia()) + " VNĐ" : "Giá không xác định" %></p>

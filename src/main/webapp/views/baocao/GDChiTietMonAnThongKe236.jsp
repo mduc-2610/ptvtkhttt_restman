@@ -18,42 +18,39 @@
 	<jsp:include page="../common/header.jsp" />
 
 	<%
+	DecimalFormat formatter = new DecimalFormat("#,###");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	
 	String id = request.getParameter("id");
-	String startDateStr = request.getParameter("startDate");
-	String endDateStr = request.getParameter("endDate");
+	String batDauStr = request.getParameter("batDau");
+	String ketThucStr = request.getParameter("ketThuc");
 
-	if (startDateStr == null || startDateStr.isEmpty()) {
-		startDateStr = "2024-03-01";
-	}
-	if (endDateStr == null || endDateStr.isEmpty()) {
-		endDateStr = "2024-10-31";
-	}
+	Date batDau = Date.valueOf(batDauStr);
+	Date ketThuc = Date.valueOf(ketThucStr);
 
-	Date startDate = Date.valueOf(startDateStr);
-	Date endDate = Date.valueOf(endDateStr);
-
-	MonAn236 monAn = null;
-
+	MonAnThongKe236 monAn = null;
+	List<DonHang236> listDonHang = null;
+	MonAnDAO236 monAnDAO = new MonAnDAO236();
+	DonHangDAO236 donHangDAO = new DonHangDAO236();
+	
 	if (id != null) {
 		try {
-			MonAnDAO236 monAnDAO = new MonAnDAO236();
-			monAn = monAnDAO.getMonAnThongKe(Integer.parseInt(id), startDate, endDate);
+			monAn = monAnDAO.getMonAnThongKe(Integer.parseInt(id), batDau, ketThuc);
+			listDonHang = donHangDAO.getListDonHangByMonAn(monAn.getId(), batDau, ketThuc);
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	DecimalFormat formatter = new DecimalFormat("#,###");
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	List<DonHang236> listDonHang = monAn.getListDonHang();
 	%>
 
 	<div class="container">
 		<div class="food-detail">
-			<div class="food-image">
+			<%-- <div class="food-image">
 				<img
 					src="/RestMan/resources/images/food/<%=monAn != null ? monAn.getId() + ".jpg" : "placeholder.jpg"%>"
 					alt="<%=monAn != null ? monAn.getTen() : "Food Image"%>">
-			</div>
+			</div> --%>
 			<div class="food-info">
 				<h2><%=monAn != null ? monAn.getTen() : "Tên món ăn không xác định"%></h2>
 				<p class="price"><%=monAn != null ? formatter.format(monAn.getGia()) + " VNĐ" : "Giá không xác định"%></p>
@@ -73,9 +70,9 @@
 			<div class="period-info">
 				<p>
 					Thời gian:
-					<%=dateFormat.format(startDate)%>
+					<%= dateFormat.format(batDau)%>
 					-
-					<%=dateFormat.format(endDate)%></p>
+					<%=dateFormat.format(ketThuc)%></p>
 			</div>
 
 			<div class="detail-stats">
@@ -98,7 +95,7 @@
 	<!--  -->
 	<div class="container">
 		<%
-		if (!listDonHang.isEmpty()) {
+		if (listDonHang!= null && !listDonHang.isEmpty()) {
 		%>
 		<table class="report-table">
 			<thead>
@@ -120,7 +117,7 @@
 					<td><%=donHang.getKhachHangId()%></td>
 					<td><%=donHang.getNhanVienBanHangId()%></td>
 					<td><a
-						href="/RestMan/views/hoadon/GDChiTietHoaDon236.jsp?id=<%=donHang.getId()%>&monAnId=<%= monAn.getId() %>"
+						href="/RestMan/views/hoadon/GDChiTietHoaDon236.jsp?id=<%=donHang.getId() %>"
 						class="btn-detail">Xem hóa đơn</a></td>
 				</tr>
 				<%

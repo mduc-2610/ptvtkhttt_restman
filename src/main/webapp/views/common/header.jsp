@@ -8,9 +8,9 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="/RestMan/views/GDTrangChu236.jsp">Trang chủ</a></li>
-                <li><a href="/RestMan/views/monan/GDTimKiemMonAn236.jsp">Tìm món</a></li>
+                <li><a href="/RestMan/views/monan/GDTimKiemMonAn236.jsp">Tìm kiếm</a></li>
                 <li><a href="/RestMan/views/baocao/GDBaoCao236.jsp">Báo cáo</a></li>
-                <li><a href="">Đăng xuất</a></li>
+               	<li><a href="">Đăng xuất</a></li>
             </ul>
         </nav>
     </div>

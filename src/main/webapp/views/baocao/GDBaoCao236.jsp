@@ -11,13 +11,12 @@
     
     <div class="container">
         <div class="dashboard">
-            <h2>Chức năng chính</h2>
             <div class="feature-grid">
                 <div class="feature-card">
                     <img src="https://thongke.cesti.gov.vn/images/DV_PTDL/TKMT-P1-Trungtam/Picture1.png" alt="Báo cáo" style="width: 100%; height: 50%;">
                     <h3>Báo cáo doanh thu</h3>
                     <p>Xem thống kê doanh thu theo món ăn</p>
-                    <a href="/RestMan/views/baocao/GDThongKeMonAnDoanhThu236.jsp" class="btn-primary">Truy cập</a>
+                    <a href="/RestMan/views/baocao/GDThongKeMonAnDoanhThu236.jsp" class="btn-primary">Thống kê món ăn theo doanh thu</a>
                 </div>
             </div>
         </div>

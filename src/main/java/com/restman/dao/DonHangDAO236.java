@@ -9,25 +9,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DonHangDAO236 {
-    private Connection connection;
-
-    public DonHangDAO236() {
-        connection = DBUtil.getConnection();
-    }
-
-    public List<DonHang236> getListDonHangByMonAn(int monAnId, Date startDate, Date endDate) throws SQLException {
+public class DonHangDAO236 extends DAO {
+	
+    public List<DonHang236> getListDonHangByMonAn(int monAnId, Date batDau, Date ketThuc) throws SQLException {
         List<DonHang236> donHangList = new ArrayList<>();
-        String query = "\r\n"
-        		+ "SELECT dh.id, dh.ngayDat, dh.khachHangId, dh.nhanVienBanHangId FROM MonAn236 ma \r\n"
-        		+ "LEFT JOIN MonAnDonHang236 mad on ma.id = mad.monAnId\r\n"
-        		+ "LEFT JOIN DonHang236 dh on mad.donHangId = dh.id \r\n"
-        		+ "where ma.id = ? and dh.ngayDat BETWEEN ? and ?";
+        String query = "SELECT dh.id, dh.ngayDat, dh.khachHangId, dh.nhanVienBanHangId "
+        		+ "FROM MonAn236 ma "
+        		+ "LEFT JOIN MonAnDonHang236 mad ON ma.id = mad.monAnId "
+        		+ "LEFT JOIN DonHang236 dh ON mad.donHangId = dh.id "
+        		+ "WHERE ma.id = ? AND dh.ngayDat BETWEEN ? AND ?";
+
         
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, monAnId);
-            pstmt.setDate(2, startDate);
-            pstmt.setDate(3, endDate);
+            pstmt.setDate(2, batDau);
+            pstmt.setDate(3, ketThuc);
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
@@ -45,8 +41,15 @@ public class DonHangDAO236 {
 
     public DonHang236 getDonHang(int id) throws SQLException {
         DonHang236 donHang = null;
-        String query = "SELECT * FROM DonHang236 " +
-                      "WHERE id = ?";
+//        String query = "SELECT * FROM DonHang236 " +
+//                      "WHERE id = ?";
+        String query = "SELECT dh.*, " +
+		        "SUM(ma.gia * mad.soLuong) AS tongTien " +
+		        "FROM DonHang236 dh " +
+		        "JOIN MonAnDonHang236 mad ON dh.id = mad.donHangId " +
+		        "JOIN MonAn236 ma ON mad.monAnId = ma.id " +
+		        "WHERE dh.id = ? " +
+		        "GROUP BY dh.id";
         
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -56,16 +59,10 @@ public class DonHangDAO236 {
                 donHang = new DonHang236();
                 donHang.setId(rs.getInt("id"));
                 donHang.setNgayDat(rs.getDate("ngayDat"));
+                donHang.setTongTien(rs.getInt("tongTien"));
                 donHang.setKhachHangId(rs.getInt("khachHangId"));
                 donHang.setNhanVienBanHangId(rs.getInt("nhanVienBanHangId"));
             }
-            MonAnDAO236 monAnDAO = new MonAnDAO236();
-            List<MonAn236> listMonAn = monAnDAO.getListMonAnByDonHang(donHang.getId());
-            donHang.setListMonAn(listMonAn);
-            
-            KhachHangDAO236 khachHangDAO = new KhachHangDAO236();
-            KhachHang236 khachHang = khachHangDAO.getKhachHang(donHang.getKhachHangId());
-            donHang.setKhachHang(khachHang);
         }
         return donHang;
     }

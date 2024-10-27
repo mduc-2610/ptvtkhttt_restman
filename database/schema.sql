@@ -1,214 +1,229 @@
--- Drop tables if they exist
 USE restman;
-DROP TABLE IF EXISTS MonAnDonHang;
-DROP TABLE IF EXISTS ComboMonAn;
-DROP TABLE IF EXISTS HoaDon;
-DROP TABLE IF EXISTS ThanhVien;
-DROP TABLE IF EXISTS DatBan;
-DROP TABLE IF EXISTS DonHang;
-DROP TABLE IF EXISTS MonAn;
-DROP TABLE IF EXISTS Combo;
-DROP TABLE IF EXISTS NguyenLieuNhaCungCap;
-DROP TABLE IF EXISTS NhaCungCap;
-DROP TABLE IF EXISTS NguyenLieu;
-DROP TABLE IF EXISTS KhachHang;
-DROP TABLE IF EXISTS NhanVienBanHang;
-DROP TABLE IF EXISTS NhanVienKho;
-DROP TABLE IF EXISTS NhanVienQuanLy;
-DROP TABLE IF EXISTS NguoiDung;
+DROP TABLE IF EXISTS MonAnDonHang236;
+DROP TABLE IF EXISTS ComboMonAn236;
+DROP TABLE IF EXISTS HoaDon236;
+DROP TABLE IF EXISTS ThanhVien236;
+DROP TABLE IF EXISTS DatBan236;
+DROP TABLE IF EXISTS DonHang236;
 
--- Create tables
+DROP TABLE IF EXISTS HoaDonNhap236;
+DROP TABLE IF EXISTS NguyenLieuNhap236;
+DROP TABLE IF EXISTS DonHangNhap236;
+DROP TABLE IF EXISTS NguyenLieuNhaCungCap236;
 
--- Bảng NguoiDung
-CREATE TABLE NguoiDung (
-    id INT PRIMARY KEY,
-    ten VARCHAR(100),
-    email VARCHAR(150),
-    matKhau VARCHAR(50)
+DROP TABLE IF EXISTS MonAn236;
+DROP TABLE IF EXISTS Combo236;
+DROP TABLE IF EXISTS NhaCungCap236;
+DROP TABLE IF EXISTS NguyenLieu236;
+
+DROP TABLE IF EXISTS KhachHang236;
+DROP TABLE IF EXISTS NhanVienBanHang236;
+DROP TABLE IF EXISTS NhanVienKho236;
+DROP TABLE IF EXISTS NhanVienQuanLy236;
+DROP TABLE IF EXISTS NhanVien236;
+
+DROP TABLE IF EXISTS NguoiDung236;
+
+CREATE TABLE NguoiDung236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ten VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    matKhau VARCHAR(50) NOT NULL,
+    sdt VARCHAR(50) NOT NULL,
+    tuoi INT,
+    diaChi VARCHAR(50)
 );
 
--- Bảng NhanVienQuanLy
-CREATE TABLE NhanVienQuanLy (
-    id INT PRIMARY KEY,
-    NguoiDungId INT,
-    CONSTRAINT FK_NhanVienQuanLy_NguoiDung FOREIGN KEY (NguoiDungId)
-    REFERENCES NguoiDung(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NhanVien236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    nguoiDungId INT,
+    CONSTRAINT FK_NhanVien_NguoiDung FOREIGN KEY (nguoiDungId)
+        REFERENCES NguoiDung236(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
--- Bảng NhanVienKho
-CREATE TABLE NhanVienKho (
-    id INT PRIMARY KEY,
-    NguoiDungId INT,
-    CONSTRAINT FK_NhanVienKho_NguoiDung FOREIGN KEY (NguoiDungId)
-    REFERENCES NguoiDung(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NhanVienQuanLy236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    luong INT,
+    nhanVienId INT,
+    CONSTRAINT FK_NhanVienQuanLy_NhanVien FOREIGN KEY (nhanVienId)
+        REFERENCES NhanVien236(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
--- Bảng NhanVienBanHang
-CREATE TABLE NhanVienBanHang (
-    id INT PRIMARY KEY,
-    NguoiDungId INT,
-    CONSTRAINT FK_NhanVienBanHang_NguoiDung FOREIGN KEY (NguoiDungId)
-    REFERENCES NguoiDung(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NhanVienKho236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    nhanVienId INT,
+    CONSTRAINT FK_NhanVienKho_NhanVien FOREIGN KEY (nhanVienId)
+        REFERENCES NhanVien236(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
--- Bảng KhachHang
-CREATE TABLE KhachHang (
-    id INT PRIMARY KEY,
-    NguoiDungId INT,
-    CONSTRAINT FK_KhachHang_NguoiDung FOREIGN KEY (NguoiDungId)
-    REFERENCES NguoiDung(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NhanVienBanHang236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    nhanVienId INT,
+    CONSTRAINT FK_NhanVienBanHang_NhanVien FOREIGN KEY (nhanVienId)
+        REFERENCES NhanVien236(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
--- Bảng NguyenLieu
-CREATE TABLE NguyenLieu (
-    id INT PRIMARY KEY,
-    ten VARCHAR(50),
-    soLuong INT
+CREATE TABLE KhachHang236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nguoiDungId INT,
+    CONSTRAINT FK_KhachHang_NguoiDung FOREIGN KEY (nguoiDungId)
+        REFERENCES NguoiDung236(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
--- Bảng NhaCungCap
-CREATE TABLE NhaCungCap (
-    id INT PRIMARY KEY,
-    ten VARCHAR(100),
-    diaChi VARCHAR(150),
-    sdt VARCHAR(15),
-    NhanVienKhoId INT,
-    CONSTRAINT FK_NhaCungCap_NhanVienKho FOREIGN KEY (NhanVienKhoId)
-    REFERENCES NhanVienKho(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
+CREATE TABLE NguyenLieu236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ten VARCHAR(50) NOT NULL,
+    moTa VARCHAR(255),
+    gia INT NOT NULL
 );
 
--- Bảng NguyenLieuNhaCungCap
-CREATE TABLE NguyenLieuNhaCungCap (
-    NguyenLieuId INT,
-    NhaCungCapId INT,
-    PRIMARY KEY (NguyenLieuId, NhaCungCapId),
-    CONSTRAINT FK_NguyenLieuNhaCungCap_NguyenLieu FOREIGN KEY (NguyenLieuId)
-    REFERENCES NguyenLieu(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    
-    CONSTRAINT FK_NguyenLieuNhaCungCap_NhaCungCap FOREIGN KEY (NhaCungCapId)
-    REFERENCES NhaCungCap(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NhaCungCap236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ten VARCHAR(100) NOT NULL,
+    diaChi VARCHAR(150) NOT NULL,
+    sdt VARCHAR(15) NOT NULL
 );
 
--- Bảng Combo
-CREATE TABLE Combo (
-    id INT PRIMARY KEY,
-    ten VARCHAR(100),
-    NhanVienQuanLyId INT,
-    CONSTRAINT FK_Combo_NhanVienQuanLy FOREIGN KEY (NhanVienQuanLyId)
-    REFERENCES NhanVienQuanLy(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
-);
-
--- Bảng MonAn
-CREATE TABLE MonAn (
-    id INT PRIMARY KEY,
-    ten VARCHAR(100),
-    gia INT,
-    moTa VARCHAR(500)
-);
-
--- Bảng ComboMonAn
-CREATE TABLE ComboMonAn (
-    ComboId INT,
-    MonAnId INT,
-    PRIMARY KEY (ComboId, MonAnId),
-    CONSTRAINT FK_ComboMonAn_Combo FOREIGN KEY (ComboId)
-    REFERENCES Combo(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-    CONSTRAINT FK_ComboMonAn_MonAn FOREIGN KEY (MonAnId)
-    REFERENCES MonAn(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- Bảng DonHang
-CREATE TABLE DonHang (
-    id INT PRIMARY KEY,
+CREATE TABLE DonHangNhap236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nhaCungCapId INT,
+    nhanVienKhoId INT,
     ngayDat DATE,
-    KhachHangId INT,
-    NhanVienBanHangId INT,
-    CONSTRAINT FK_DonHang_KhachHang FOREIGN KEY (KhachHangId)
-    REFERENCES KhachHang(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-    CONSTRAINT FK_DonHang_NhanVienBanHang FOREIGN KEY (NhanVienBanHangId)
-    REFERENCES NhanVienBanHang(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
+    CONSTRAINT FK_DonHangNhap_NhaCungCap 
+        FOREIGN KEY (nhaCungCapId) REFERENCES NhaCungCap236(id) 
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_DonHangNhap_NhanVienKho
+        FOREIGN KEY (nhanVienKhoId) REFERENCES NhanVienKho236(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Bảng MonAnDonHang
-CREATE TABLE MonAnDonHang (
-    MonAnId INT,
-    DonHangId INT,
-    PRIMARY KEY (MonAnId, DonHangId),
-    CONSTRAINT FK_MonAnDonHang_MonAn FOREIGN KEY (MonAnId)
-    REFERENCES MonAn(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-    CONSTRAINT FK_MonAnDonHang_DonHang FOREIGN KEY (DonHangId)
-    REFERENCES DonHang(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+CREATE TABLE NguyenLieuNhap236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nguyenLieuId INT,
+    donHangNhapId INT,
+    CONSTRAINT FK_NguyenLieuNhap_NguyenLieu 
+        FOREIGN KEY (nguyenLieuId) REFERENCES NguyenLieu236(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_NguyenLieuNhap_DonHangNhap
+        FOREIGN KEY (donHangNhapId) REFERENCES DonHangNhap236(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Bảng DatBan
-CREATE TABLE DatBan (
-    id INT PRIMARY KEY,
-    ngayDat DATE,
-    soBan INT,
-    KhachHangId INT,
-    NhanVienBanHangId INT,
-    CONSTRAINT FK_DatBan_KhachHang FOREIGN KEY (KhachHangId)
-    REFERENCES KhachHang(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-    CONSTRAINT FK_DatBan_NhanVienBanHang FOREIGN KEY (NhanVienBanHangId)
-    REFERENCES NhanVienBanHang(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
-);
-
--- Bảng ThanhVien
-CREATE TABLE ThanhVien (
-    id INT PRIMARY KEY,
-    ngayGiaNhap DATE,
-    tienCauLacBo INT,
-    KhachHangId INT,
-    CONSTRAINT FK_ThanhVien_KhachHang FOREIGN KEY (KhachHangId)
-    REFERENCES KhachHang(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- Bảng HoaDon
-CREATE TABLE HoaDon (
-    id INT PRIMARY KEY,
+CREATE TABLE HoaDonNhap236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    donHangNhapId INT,
     ngayThanhToan DATE,
-    tongTien INT,
-    DonHangId INT,
-    CONSTRAINT FK_HoaDon_DonHang FOREIGN KEY (DonHangId)
-    REFERENCES DonHang(id)
+    ghiChu VARCHAR(255),
+    CONSTRAINT FK_HoaDonNhap_DonHangNhap
+        FOREIGN KEY (donHangNhapId) REFERENCES DonHangNhap236(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE Combo236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ten VARCHAR(100) NOT NULL,
+    gia INT NOT NULL,
+    moTa VARCHAR(255)
+);
+
+CREATE TABLE MonAn236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ten VARCHAR(100) NOT NULL,
+    gia INT NOT NULL,
+    moTa VARCHAR(255)
+);
+
+CREATE TABLE ComboMonAn236 (
+    comboId INT NOT NULL,
+    monAnId INT NOT NULL,
+    soLuong INT NOT NULL,
+    PRIMARY KEY (comboId, monAnId),
+    CONSTRAINT FK_ComboMonAn236_Combo FOREIGN KEY (comboId)
+    REFERENCES Combo236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+    CONSTRAINT FK_ComboMonAn236_MonAn FOREIGN KEY (monAnId)
+    REFERENCES MonAn236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE DonHang236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ngayDat DATE NOT NULL,
+    khachHangId INT NOT NULL,
+    nhanVienBanHangId INT,
+    CONSTRAINT FK_DonHang236_KhachHang FOREIGN KEY (khachHangId)
+    REFERENCES KhachHang236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT FK_DonHang236_NhanVienBanHang FOREIGN KEY (nhanVienBanHangId)
+    REFERENCES NhanVienBanHang236(id)  
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE MonAnDonHang236 (
+    monAnId INT NOT NULL,
+    donHangId INT NOT NULL,
+    soLuong INT NOT NULL,
+    PRIMARY KEY (monAnId, donHangId),
+    CONSTRAINT FK_MonAnDonHang236_MonAn FOREIGN KEY (monAnId)
+    REFERENCES MonAn236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT FK_MonAnDonHang236_DonHang FOREIGN KEY (donHangId)
+    REFERENCES DonHang236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE DatBan236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ngayDat DATE NOT NULL,
+    soBan INT NOT NULL,
+    khachHangId INT NOT NULL,
+    nhanVienBanHangId INT,
+    CONSTRAINT FK_DatBan236_KhachHang FOREIGN KEY (khachHangId)
+    REFERENCES KhachHang236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT FK_DatBan236_NhanVienBanHang FOREIGN KEY (nhanVienBanHangId)
+    REFERENCES NhanVienBanHang236(id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE ThanhVien236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ngayDangKy DATE NOT NULL,
+    diemTichLuy INT NOT NULL,
+    khachHangId INT NOT NULL,
+    CONSTRAINT FK_ThanhVien236_KhachHang FOREIGN KEY (khachHangId)
+    REFERENCES KhachHang236(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE HoaDon236 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ngayThanhToan DATE NOT NULL,
+    ghiChu VARCHAR(300),
+    donHangId INT NOT NULL,
+    CONSTRAINT FK_HoaDon236_DonHang FOREIGN KEY (donHangId)
+    REFERENCES DonHang236(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
