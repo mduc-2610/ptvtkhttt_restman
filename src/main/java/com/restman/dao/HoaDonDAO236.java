@@ -11,13 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class HoaDonDAO236 {
-    private Connection connection;
+public class HoaDonDAO236 extends DAO {
 
-    public HoaDonDAO236() {
-        connection = DBUtil.getConnection();
-    }
-    
     public HoaDon236 getHoaDon(int id) throws SQLException {
         HoaDon236 hoaDon = null;
         String query = "SELECT hd.id, hd.ngayThanhToan, hd.donHangId, hd.ghiChu, " +
@@ -41,9 +36,6 @@ public class HoaDonDAO236 {
                 hoaDon.setGhiChu(rs.getString("ghiChu"));
                 hoaDon.setDonHangId(rs.getInt("donHangId"));  
 
-                DonHangDAO236 donHangDAO = new DonHangDAO236();
-                DonHang236 donHang = donHangDAO.getDonHang(hoaDon.getDonHangId());
-                hoaDon.setDonHang(donHang);
             }
         }
         return hoaDon;

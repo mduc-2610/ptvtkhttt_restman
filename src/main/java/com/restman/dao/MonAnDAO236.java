@@ -12,13 +12,8 @@ import com.restman.model.DonHang236;
 import com.restman.model.MonAn236;
 import com.restman.util.DBUtil;
 
-public class MonAnDAO236 {
-    private Connection connection;
-
-    public MonAnDAO236() {
-        connection = DBUtil.getConnection();
-    }
-    
+public class MonAnDAO236 extends DAO {
+   
     public MonAn236 getMonAn(int id) throws SQLException {
     	MonAn236 monAn = null;
         String query = "SELECT * FROM MonAn236 WHERE id = ?";
@@ -40,7 +35,7 @@ public class MonAnDAO236 {
         return monAn;
     }
 
-    public List<MonAn236> getListMonAn(String keyword) throws SQLException {
+    public List<MonAn236> getListMonAnByKeyword(String keyword) throws SQLException {
         List<MonAn236> listMonAn = new ArrayList<>();
         String query = "SELECT * FROM MonAn236 WHERE ten LIKE ? OR CAST(id AS CHAR) LIKE ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -64,18 +59,14 @@ public class MonAnDAO236 {
     public MonAn236 getMonAnThongKe(int id, Date startDate, Date endDate) throws SQLException {
     	MonAn236 monAn = null;
     	String query = "SELECT ma.id AS id, ma.ten AS ten, ma.gia AS gia, ma.moTa as moTa, " +
-                "COUNT(mad.monAnId) AS soLanGoi, " +
-                "SUM(mad.soLuong * ma.gia) AS doanhThu, " +
-                "SUM(mad.soLuong) AS soLuongDaBan " +
-                "FROM MonAn236 ma " +
-                "LEFT JOIN MonAnDonHang236 mad ON ma.id = mad.monAnId " +
-                "LEFT JOIN DonHang236 dh ON mad.donHangId = dh.id " +
-                "WHERE ma.id = ? AND dh.ngayDat BETWEEN ? AND ? " +
-                "GROUP BY ma.id, ma.ten, ma.gia " 
-//                + 
-//                "ORDER BY doanhThu DESC"
-                ;
-
+    					"COUNT(mad.monAnId) AS soLanGoi, " +
+		                "SUM(mad.soLuong * ma.gia) AS doanhThu, " +
+		                "SUM(mad.soLuong) AS soLuongDaBan " +
+		                "FROM MonAn236 ma " +
+		                "LEFT JOIN MonAnDonHang236 mad ON ma.id = mad.monAnId " +
+		                "LEFT JOIN DonHang236 dh ON mad.donHangId = dh.id " +
+		                "WHERE ma.id = ? AND dh.ngayDat BETWEEN ? AND ? " +
+		                "GROUP BY ma.id, ma.ten, ma.gia ";
         
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -94,11 +85,6 @@ public class MonAnDAO236 {
                 monAn.setSoLuongDaBan(rs.getInt("soLuongDaBan"));
                 monAn.setDoanhThu(rs.getInt("doanhThu"));
             }
-        }
-        DonHangDAO236 donHangDAO = new DonHangDAO236();
-        List<DonHang236> listDonHang = donHangDAO.getListDonHangByMonAn(monAn.getId(), startDate, endDate);
-        if(!listDonHang.isEmpty()) {
-        	monAn.setListDonHang(listDonHang);
         }
         
         return monAn;

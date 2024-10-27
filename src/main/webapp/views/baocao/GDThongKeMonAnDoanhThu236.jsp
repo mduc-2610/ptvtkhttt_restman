@@ -7,8 +7,6 @@
 <%@ page import="com.restman.model.*" %>
 
 <%
-	MonAnDAO236 monAnDAO = new MonAnDAO236();
-    
     String startDateStr = request.getParameter("startDate");
     String endDateStr = request.getParameter("endDate");
     
@@ -22,6 +20,7 @@
     Date startDate = Date.valueOf(startDateStr);
     Date endDate = Date.valueOf(endDateStr);
     
+    MonAnDAO236 monAnDAO = new MonAnDAO236();
     List<MonAn236> monAnList = monAnDAO.getListMonAnDoanhThu(startDate, endDate);
     
     /* int tongDoanhThu = 0;

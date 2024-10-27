@@ -39,7 +39,7 @@
                 
                 try {
                     MonAnDAO236 monAnDAO = new MonAnDAO236();
-                    List<MonAn236> monAnList = monAnDAO.getListMonAn(searchQuery);
+                    List<MonAn236> monAnList = monAnDAO.getListMonAnByKeyword(searchQuery);
                     
                     if (!monAnList.isEmpty()) {
             %>

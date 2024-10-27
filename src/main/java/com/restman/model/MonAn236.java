@@ -7,11 +7,15 @@ public class MonAn236 {
     private String ten;
     private String moTa;
     private int gia;
+    
     private int soLanGoi;
     private int soLuongDaBan;
     private int soLuong;
     private int doanhThu;
     private int thanhTien;
+    
+    public MonAn236() {}
+
     public int getThanhTien() {
 		return thanhTien;
 	}
@@ -19,28 +23,7 @@ public class MonAn236 {
 	public void setThanhTien(int thanhTien) {
 		this.thanhTien = thanhTien;
 	}
-
-	private List<DonHang236> listDonHang;
-
-    public MonAn236() {}
-
-    public MonAn236(int id, String ten, String moTa, int gia) {
-        this.id = id;
-        this.ten = ten;
-        this.moTa = moTa;
-        this.gia = gia;
-    }
-    
-    public MonAn236(int id, String ten, String moTa, int gia, int soLanGoi, int soLuongDaBan, int doanhThu) {
-        this.id = id;
-        this.ten = ten;
-        this.moTa = moTa;
-        this.gia = gia;
-        this.soLanGoi = soLanGoi;
-        this.soLuongDaBan = soLuongDaBan;
-        this.doanhThu = doanhThu;
-    }
-
+	
     public int getSoLuong() {
 		return soLuong;
 	}
@@ -93,9 +76,6 @@ public class MonAn236 {
         return gia;
     }
     
-    public List<DonHang236> getListDonHang() {
-    	return this.listDonHang;
-    }
 
     public void setGia(int gia) {
         this.gia = gia;
@@ -111,10 +91,6 @@ public class MonAn236 {
     
     public void setSoLuongDaBan(int soLuongDaBan) {
     	this.soLuongDaBan = soLuongDaBan;
-    }
-    
-    public void setListDonHang(List<DonHang236> listDonHang) {
-    	this.listDonHang = listDonHang;
     }
     
     @Override

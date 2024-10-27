@@ -11,16 +11,6 @@ public class NguoiDung236 {
 
     public NguoiDung236() {}
 
-    public NguoiDung236(int id, String ten, String email, String matKhau, int tuoi, String diaChi, String sdt) {
-        this.id = id;
-        this.ten = ten;
-        this.email = email;
-        this.matKhau = matKhau;
-        this.tuoi = tuoi;
-        this.diaChi = diaChi;
-        this.sdt = sdt;
-    }
-
 	public int getId() {
 		return id;
 	}

@@ -6,11 +6,6 @@ public class KhachHang236 extends NguoiDung236 {
 
     public KhachHang236() {}
 
-    public KhachHang236(int id, int nguoiDungId) {
-        this.id = id;
-        this.nguoiDungId = nguoiDungId;
-    }
-
     public int getId() {
         return id;
     }

@@ -15,14 +15,22 @@
     <jsp:include page="../common/header.jsp" />
 
     <%
-        int id = Integer.parseInt(request.getParameter("id"));
-    	int monAnId = Integer.parseInt(request.getParameter("monAnId"));
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    DecimalFormat formatter = new DecimalFormat("#,###");
+      
+	    int id = Integer.parseInt(request.getParameter("id"));
         
         HoaDonDAO236 hoaDonDAO = new HoaDonDAO236();
         HoaDon236 hoaDon = hoaDonDAO.getHoaDon(id);
+
+        DonHangDAO236 donHangDAO = new DonHangDAO236();
+        DonHang236 donHang = donHangDAO.getDonHang(hoaDon.getDonHangId());
+
+        MonAnDAO236 monAnDAO = new MonAnDAO236();
+        List<MonAn236> listMonAn = monAnDAO.getListMonAnByDonHang(donHang.getId());
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        DecimalFormat formatter = new DecimalFormat("#,###");
+        KhachHangDAO236 khachHangDAO = new KhachHangDAO236();
+        KhachHang236 khachHang = khachHangDAO.getKhachHang(donHang.getKhachHangId());
 
         if (hoaDon == null) {
     %>
@@ -38,7 +46,7 @@
     <div class="container">
         <div class="report-detail fade-in">
             <div class="report-header">
-                <h2>Hóa đơn #HD<%= String.format("%03d", hoaDon.getId()) %></h2>
+                <h2 style="font-weight: 300;"><strong>Mã hóa đơn:</strong> <%= String.format("%03d", hoaDon.getId()) %></h2>
                 <p class="period-info"><strong>Ngày thanh toán:</strong> <%= dateFormat.format(hoaDon.getNgayThanhToan()) %></p>
             </div>
 
@@ -51,7 +59,6 @@
             <div class="customer-info">
 			    <h3>Thông tin khách hàng</h3>
 			    <% 
-			        KhachHang236 khachHang = hoaDon.getDonHang().getKhachHang();
 			        if (khachHang != null) {
 			    %>
 			        <p><strong>Tên khách hàng:</strong> <%= khachHang.getTen() %></p>
@@ -80,7 +87,6 @@
 			        </thead>
 			        <tbody>
 			            <% 
-			            List<MonAn236> listMonAn = hoaDon.getDonHang().getListMonAn();
 			            if (listMonAn != null && !listMonAn.isEmpty()) { 
 			            %>
 			                <% for (MonAn236 monAn : listMonAn) { %>
@@ -110,7 +116,6 @@
 
             <div class="action-buttons">
                 <button class="btn-primary" onclick="window.print()">In hóa đơn</button>
-                <a href="/RestMan/views/baocao/GDChiTietMonAnThongKe236.jsp?id=<%= monAnId %>" class="btn-secondary">Quay lại</a>
             </div>
         </div>
     </div>

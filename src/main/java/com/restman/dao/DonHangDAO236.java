@@ -9,20 +9,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DonHangDAO236 {
-    private Connection connection;
-
-    public DonHangDAO236() {
-        connection = DBUtil.getConnection();
-    }
-
+public class DonHangDAO236 extends DAO {
+	
     public List<DonHang236> getListDonHangByMonAn(int monAnId, Date startDate, Date endDate) throws SQLException {
         List<DonHang236> donHangList = new ArrayList<>();
-        String query = "\r\n"
-        		+ "SELECT dh.id, dh.ngayDat, dh.khachHangId, dh.nhanVienBanHangId FROM MonAn236 ma \r\n"
-        		+ "LEFT JOIN MonAnDonHang236 mad on ma.id = mad.monAnId\r\n"
-        		+ "LEFT JOIN DonHang236 dh on mad.donHangId = dh.id \r\n"
-        		+ "where ma.id = ? and dh.ngayDat BETWEEN ? and ?";
+        String query = "SELECT dh.id, dh.ngayDat, dh.khachHangId, dh.nhanVienBanHangId "
+        		+ "FROM MonAn236 ma "
+        		+ "LEFT JOIN MonAnDonHang236 mad ON ma.id = mad.monAnId "
+        		+ "LEFT JOIN DonHang236 dh ON mad.donHangId = dh.id "
+        		+ "WHERE ma.id = ? AND dh.ngayDat BETWEEN ? AND ?";
+
         
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, monAnId);
@@ -59,13 +55,6 @@ public class DonHangDAO236 {
                 donHang.setKhachHangId(rs.getInt("khachHangId"));
                 donHang.setNhanVienBanHangId(rs.getInt("nhanVienBanHangId"));
             }
-            MonAnDAO236 monAnDAO = new MonAnDAO236();
-            List<MonAn236> listMonAn = monAnDAO.getListMonAnByDonHang(donHang.getId());
-            donHang.setListMonAn(listMonAn);
-            
-            KhachHangDAO236 khachHangDAO = new KhachHangDAO236();
-            KhachHang236 khachHang = khachHangDAO.getKhachHang(donHang.getKhachHangId());
-            donHang.setKhachHang(khachHang);
         }
         return donHang;
     }
